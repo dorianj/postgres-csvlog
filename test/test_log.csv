@@ -1,0 +1,3 @@
+2016-03-12 15:49:51.753 PST,"primaryuser","maindb",689,"127.0.0.1:60135",56e4aaeb.2b1,4,"SELECT",2016-03-12 15:48:59 PST,2/0,0,LOG,00000,"duration: 2.277 ms  statement: SELECT *
+FROM ""pg_stat_activity"";",,,,,,,,,"psql"
+2016-03-12 15:49:23.567 PST,"primaryuser","maindb",689,"127.0.0.1:60135",56e4aaeb.2b1,3,"SELECT",2016-03-12 15:48:59 PST,2/12,0,ERROR,42703,"column ""nine"" does not exist",,,,,,"select nine;",8,,"psql"

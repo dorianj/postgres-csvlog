@@ -20,9 +20,13 @@
   },
   "homepage": "https://github.com/dorianj/postgres-csvlog#readme",
   "devDependencies": {
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "multipipe": "^0.3.0",
+    "should": "^8.2.2",
+    "stream-to-array": "^2.3.0"
   },
   "dependencies": {
-    "csv": "^0.4.6"
+    "csv": "^0.4.6",
+    "lodash": "^4.6.1"
   }
 }
