@@ -1,0 +1,28 @@
+{
+  "name": "postgres-csvlog",
+  "version": "0.0.1",
+  "description": "Parse PostgreSQL csvlog format logs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dorianj/postgres-csvlog.git"
+  },
+  "keywords": [
+    "postgres"
+  ],
+  "author": "Dorian Johnson <2016@dorianj.net>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dorianj/postgres-csvlog/issues"
+  },
+  "homepage": "https://github.com/dorianj/postgres-csvlog#readme",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "csv": "^0.4.6"
+  }
+}
