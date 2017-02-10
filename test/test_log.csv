@@ -1,3 +1,11 @@
-2016-03-12 15:49:51.753 PST,"primaryuser","maindb",689,"127.0.0.1:60135",56e4aaeb.2b1,4,"SELECT",2016-03-12 15:48:59 PST,2/0,0,LOG,00000,"duration: 2.277 ms  statement: SELECT *
-FROM ""pg_stat_activity"";",,,,,,,,,"psql"
 2016-03-12 15:49:23.567 PST,"primaryuser","maindb",689,"127.0.0.1:60135",56e4aaeb.2b1,3,"SELECT",2016-03-12 15:48:59 PST,2/12,0,ERROR,42703,"column ""nine"" does not exist",,,,,,"select nine;",8,,"psql"
+2016-03-12 15:49:51.753 PST,"primaryuser","maindb",689,"127.0.0.1:60135",56e4aaeb.2b1,4,"SELECT",2016-03-12 15:48:59 PST,2/0,0,LOG,00000,"duration: 2.277 ms  plan:
+Query Text: select * from generate_series(1,1000000) g(i) natural join generate_series(1,1000000) f(i);
+Merge Join  (cost=119.66..199.66 rows=5000 width=4)
+  Merge Cond: (g.i = f.i)
+  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)
+        Sort Key: g.i
+        ->  Function Scan on generate_series g  (cost=0.00..10.00 rows=1000 width=4)
+  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)
+        Sort Key: f.i
+        ->  Function Scan on generate_series f  (cost=0.00..10.00 rows=1000 width=4)",,,,,,,,,"psql"

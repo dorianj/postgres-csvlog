@@ -52,9 +52,30 @@ it('should parse log lines correctly', (done) => {
           internal_query_pos: '',
           location: '',
           log_time: new Date('Sat Mar 12 2016 15:49:51.753 GMT-0800 (PST)'),
-          message: 'duration: 2.277 ms  statement: SELECT *\nFROM "pg_stat_activity";',
+          message: [
+            "duration: 2.277 ms  plan:",
+            "Query Text: select * from generate_series(1,1000000) g(i) natural join generate_series(1,1000000) f(i);",
+            "Merge Join  (cost=119.66..199.66 rows=5000 width=4)",
+            "  Merge Cond: (g.i = f.i)",
+            "  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)",
+            "        Sort Key: g.i",
+            "        ->  Function Scan on generate_series g  (cost=0.00..10.00 rows=1000 width=4)",
+            "  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)",
+            "        Sort Key: f.i",
+            "        ->  Function Scan on generate_series f  (cost=0.00..10.00 rows=1000 width=4)",
+            ].join('\n'),
+          plan: [
+            "Merge Join  (cost=119.66..199.66 rows=5000 width=4)",
+            "  Merge Cond: (g.i = f.i)",
+            "  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)",
+            "        Sort Key: g.i",
+            "        ->  Function Scan on generate_series g  (cost=0.00..10.00 rows=1000 width=4)",
+            "  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)",
+            "        Sort Key: f.i",
+            "        ->  Function Scan on generate_series f  (cost=0.00..10.00 rows=1000 width=4)",
+            ].join('\n'),
           process_id: 689,
-          query: 'SELECT *\nFROM "pg_stat_activity";',
+          query: 'select * from generate_series(1,1000000) g(i) natural join generate_series(1,1000000) f(i);',
           query_pos: '',
           session_id: '56e4aaeb.2b1',
           session_line_num: 4,
@@ -69,4 +90,3 @@ it('should parse log lines correctly', (done) => {
     }
   });
 });
-
