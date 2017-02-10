@@ -1,6 +1,6 @@
 {
   "name": "postgres-csvlog",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Parse PostgreSQL csvlog format logs.",
   "main": "index.js",
   "scripts": {
