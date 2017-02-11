@@ -64,7 +64,9 @@ it('should parse log lines correctly', (done) => {
             "        Sort Key: f.i",
             "        ->  Function Scan on generate_series f  (cost=0.00..10.00 rows=1000 width=4)",
             ].join('\n'),
-          plan: [
+          process_id: 689,
+          query: [
+            "select * from generate_series(1,1000000) g(i) natural join generate_series(1,1000000) f(i);",
             "Merge Join  (cost=119.66..199.66 rows=5000 width=4)",
             "  Merge Cond: (g.i = f.i)",
             "  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)",
@@ -73,9 +75,7 @@ it('should parse log lines correctly', (done) => {
             "  ->  Sort  (cost=59.83..62.33 rows=1000 width=4)",
             "        Sort Key: f.i",
             "        ->  Function Scan on generate_series f  (cost=0.00..10.00 rows=1000 width=4)",
-            ].join('\n'),
-          process_id: 689,
-          query: 'select * from generate_series(1,1000000) g(i) natural join generate_series(1,1000000) f(i);',
+          ].join('\n'),
           query_pos: '',
           session_id: '56e4aaeb.2b1',
           session_line_num: 4,
