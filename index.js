@@ -5,7 +5,7 @@ const csv = require('csv');
 const multipipe = require('multipipe');
 const stream = require('stream');
 
-const _durationPattern = /^duration: (\d+\.\d+)\s*ms\s+plan:\s+Query Text:\s*([^;]*;)\s*([\s\S]*)$/
+const _durationPattern = /^duration: (\d+\.\d+)\s*ms\s+plan:\s+Query Text:\s*([\s\S]*)$/
 const _dateFields = ['session_start_time', 'log_time'];
 const _numericFields = ['process_id', 'session_line_num'];
 
@@ -33,7 +33,6 @@ class PostgresCSVLog extends stream.Transform {
       if (_.size(match)) {
         record.duration = +match[1];
         record.query = match[2];
-        record.plan = match[3]
       }
     }
 
