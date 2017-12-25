@@ -38,8 +38,14 @@ class PostgresCSVLog extends stream.Transform {
           record.query = textMatch[1];
         }
         else {
-          record.plan = JSON.parse(match[2]);
-          record.query = record.plan['Query Text'];
+          try {
+            record.plan = JSON.parse(match[2]);
+            record.query = record.plan['Query Text'];
+          }
+          catch (e) {
+            // If the query/plan is not in text format or JSON format, we just
+            // ignore it here since there isn't much else we can do.
+          }
         }
       }
     }

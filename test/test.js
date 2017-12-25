@@ -85,6 +85,32 @@ it('should parse log lines correctly', (done) => {
           user_name: 'primaryuser',
           virtual_transaction_id: '2/0',
         },
+        {
+          application_name: 'psql',
+          command_tag: 'SELECT',
+          connection_from: '127.0.0.1:60135',
+          context: '',
+          database_name: 'maindb',
+          detail: '',
+          duration: 2.277,
+          error_severity: 'LOG',
+          hint: '',
+          internal_query: '',
+          internal_query_pos: '',
+          location: '',
+          log_time: new Date('Sat Mar 12 2016 15:59:52.853 GMT-0800 (PST)'),
+          message: 'duration: 2.277 ms  plan: not a valid entry.',
+          process_id: 689,
+          query: '',
+          query_pos: '',
+          session_id: '56e4aaeb.2b1',
+          session_line_num: 4,
+          session_start_time: new Date('Sat Mar 12 2016 15:48:59 GMT-0800 (PST)'),
+          sql_state_code: '00000',
+          transaction_id: '0',
+          user_name: 'primaryuser',
+          virtual_transaction_id: '2/0',
+        }
       ]);
       done();
     }
