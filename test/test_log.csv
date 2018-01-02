@@ -9,3 +9,4 @@ Merge Join  (cost=119.66..199.66 rows=5000 width=4)
   ->  Sort  (cost=59.83..62.33 rows=1000 width=4)
         Sort Key: f.i
         ->  Function Scan on generate_series f  (cost=0.00..10.00 rows=1000 width=4)",,,,,,,,,"psql"
+2016-03-12 15:59:52.853 PST,"primaryuser","maindb",689,"127.0.0.1:60135",56e4aaeb.2b1,4,"SELECT",2016-03-12 15:48:59 PST,2/0,0,LOG,00000,"duration: 2.277 ms  plan: not a valid entry.",,,,,,,,,"psql"
