@@ -5,7 +5,7 @@ const csv = require('csv');
 const multipipe = require('multipipe');
 const stream = require('stream');
 
-const _durationPattern = /^duration: (\d+\.\d+)\s*ms\s+plan:\s*([\s\S]*)$/;
+const _messagePattern = /^duration: (\d+\.\d+)\s*ms\s+(plan|statement):\s*([\s\S]*)$/;
 const _textPattern = /^Query Text:\s*([\s\S]*)$/;
 const _dateFields = ['session_start_time', 'log_time'];
 const _numericFields = ['process_id', 'session_line_num'];
@@ -19,6 +19,37 @@ class PostgresCSVLog extends stream.Transform {
     });
   }
 
+  static extractAutoExplainMessageFields(messagePlan) {
+    const textMatch = messagePlan.match(_textPattern);
+    if (_.size(textMatch)) {
+      return {
+        query: textMatch[1]
+      };
+    }
+    else {
+      let plan;
+      try {
+        plan = JSON.parse(messagePlan);
+      }
+      catch (e) {
+        return;
+        // If the query/plan is not in text format or JSON format, we just
+        // ignore it here since there isn't much else we can do.
+      }
+
+      return {
+        plan: plan,
+        query: plan['Query Text'],
+      };
+    }
+  }
+
+  static extractStatementMessageFields(statement) {
+    return {
+      query: statement
+    };
+  }
+
   _transform(record, encoding, callback) {
     for (const field of _dateFields) {
       record[field] = new Date(record[field]);
@@ -28,25 +59,20 @@ class PostgresCSVLog extends stream.Transform {
       record[field] = +record[field];
     }
 
-    // Attempt to parse log_min_duration_statement lines.
     if (record.sql_state_code === '00000') {
-      const match = record.message.match(_durationPattern);
-      if (_.size(match)) {
-        record.duration = +match[1];
-        const textMatch = match[2].match(_textPattern);
-        if (_.size(textMatch)) {
-          record.query = textMatch[1];
-        }
-        else {
-          try {
-            record.plan = JSON.parse(match[2]);
-            record.query = record.plan['Query Text'];
-          }
-          catch (e) {
-            // If the query/plan is not in text format or JSON format, we just
-            // ignore it here since there isn't much else we can do.
-          }
-        }
+      const messageMatches = record.message.match(_messagePattern);
+      if (!_.size(messageMatches)) {
+        return;
+      }
+
+      record.duration = +messageMatches[1];
+
+      if (messageMatches[2] === 'plan') {
+        _.assign(record, PostgresCSVLog.extractAutoExplainMessageFields(messageMatches[3]));
+      }
+      // Parse log_min_duration_statement lines, which start with `statement` instead of `plan`.
+      if (messageMatches[2] === 'statement') {
+        _.assign(record, PostgresCSVLog.extractStatementMessageFields(messageMatches[3]));
       }
     }
 
