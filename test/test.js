@@ -6,6 +6,9 @@ const toArray = require('stream-to-array');
 
 const postgresCSVLog = require('../index');
 
+// Note that each test case processes the entire file despite only checking parts of the output. It's potentially worth refactoring this to
+// remove the repeated processing.
+
 it('should correctly parse error log lines', (done) => {
   stream = fs.createReadStream('test/test_log.csv').pipe(postgresCSVLog());
   toArray(stream, (err, arr) => {
