@@ -62,7 +62,7 @@ class PostgresCSVLog extends stream.Transform {
     if (record.sql_state_code === '00000') {
       const messageMatches = record.message.match(_messagePattern);
       if (!_.size(messageMatches)) {
-        return;
+        return setImmediate(callback);
       }
 
       record.duration = +messageMatches[1];
