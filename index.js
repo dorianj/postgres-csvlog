@@ -69,10 +69,12 @@ class PostgresCSVLog extends stream.Transform {
       record.duration = +messageMatches[1];
 
       if (messageMatches[2] === 'plan') {
+        record.source = 'from_auto_explain';
         _.assign(record, PostgresCSVLog.extractAutoExplainMessageFields(messageMatches[3]));
       }
       // Parse log_min_duration_statement lines, which start with `statement` instead of `plan`.
       if (messageMatches[2] === 'statement') {
+        record.source = 'from_log_min_duration_statement';
         _.assign(record, PostgresCSVLog.extractStatementMessageFields(messageMatches[3]));
       }
     }
